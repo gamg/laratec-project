@@ -10,6 +10,6 @@ class Maintenance extends Model
 
     public function devices()
     {
-        return $this->belongsToMany('App\Models\Device');
+        return $this->belongsToMany('App\Models\Device')->withTimestamps();
     }
 }

@@ -20,7 +20,7 @@ class CreateDevicesTable extends Migration
             $table->text('description');
             $table->enum('status',['Recibido', 'Procesando', 'Terminado', 'Entregado']);
             $table->dateTime('entry_date');
-            $table->dateTime('departure_date');
+            $table->dateTime('departure_date')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')

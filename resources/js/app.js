@@ -29,4 +29,41 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    data: {
+        elementId: '',
+        showSpinner: false,
+    },
+    methods: {
+        getRoute(event) {
+            this.elementId = event.currentTarget.getAttribute('data-id');
+        },
+        deleteIt() {
+            if (this.elementId != '') {
+                this.showSpinner = true;
+                axios.delete('dispositivos/'+this.elementId).then((response) => {
+                    this.showSpinner = false;
+                    $("#deleteModal").modal('hide');
+                    if (response.data.error) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.data.message,
+                        });
+                    } else {
+                        $("#device"+this.elementId).fadeOut();
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.data.message,
+                        });
+                    }
+                }, (error) => {
+                    this.showSpinner = false;
+                    $("#deleteModal").modal('hide');
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Error inesperado, intente de nuevo mas tarde.',
+                    });
+                });
+            }
+        }
+    }
 });

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['customer_id', 'user_id', 'description', 'status', 'entry_date'];
 
     public function customer()
     {
@@ -20,7 +21,20 @@ class Device extends Model
 
     public function maintenances()
     {
-        return $this->belongsToMany('App\Models\Maintenance');
+        return $this->belongsToMany('App\Models\Maintenance')->withTimestamps();
     }
 
+    public function getEntryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    public function getDepartureDateAttribute($value)
+    {
+        if (is_null($value)) {
+            return '';
+        }
+
+        return Carbon::parse($value)->format('d/m/Y');
+    }
 }
