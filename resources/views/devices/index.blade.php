@@ -1,3 +1,5 @@
+@inject('status', 'App\Services\Status')
+
 @component('components.main')
     @slot('title')
         {{ __('general.devices') }}
@@ -11,6 +13,8 @@
             {{ session('message') }}
         </div>
     @endif
+
+    @include('devices.filter_form')
 
     <div class="row">
         @forelse($devices as $device)
@@ -37,6 +41,6 @@
     @include('partials.modal')
 
     <section class="d-flex justify-content-center">
-        {{ $devices->links() }}
+        {{ $devices->appends(request()->only('status', 'entry_date_from', 'entry_date_to'))->links() }}
     </section>
 @endcomponent

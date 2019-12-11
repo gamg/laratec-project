@@ -15,9 +15,9 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $devices = Device::paginate(9);
+        $devices = Device::devicesFilter($request->status, $request->entry_date_from, $request->entry_date_to);
         return view('devices.index')->with('devices', $devices);
     }
 

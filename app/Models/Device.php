@@ -37,4 +37,41 @@ class Device extends Model
 
         return Carbon::parse($value)->format('d/m/Y');
     }
+
+    public static function devicesFilter($status, $entry_date_from, $entry_date_to)
+    {
+        return Device::status($status)->entryDate($entry_date_from, $entry_date_to)->paginate(9);
+    }
+
+    /**
+     * Scope a query to only include devices of a given status.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query, $status)
+    {
+        if (!is_null($status)) {
+            return $query->where('status', $status);
+        }
+    }
+
+    /**
+     * Scope a query to only include devices of a given entry dates.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEntryDate($query, $entry_date_from, $entry_date_to)
+    {
+        if (!is_null($entry_date_from) && !is_null($entry_date_to)) {
+            return $query->whereBetween('entry_date', [$entry_date_from, $entry_date_to]);
+        } elseif (!is_null($entry_date_from) && is_null($entry_date_to)) {
+            return $query->where('entry_date', '>=', $entry_date_from);
+        } elseif(is_null($entry_date_from) && !is_null($entry_date_to)) {
+            return $query->where('entry_date', '<=', $entry_date_to);
+        }
+    }
 }
