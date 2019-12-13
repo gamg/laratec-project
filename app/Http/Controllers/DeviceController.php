@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\Device;
 use Illuminate\Http\Request;
@@ -64,10 +65,14 @@ class DeviceController extends Controller
      */
     public function show($id)
     {
-        $device = Device::find($id);
+        try {
+            $device = Device::find($id);
 
-        if (is_null($device)) {
-            return redirect()->route('dispositivos.index');
+            if (is_null($device)) {
+                return redirect()->route('dispositivos.index');
+            }
+        } catch (Exception $exception) {
+            report($exception);
         }
 
         return view('devices.info')->with('device', $device);
