@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +36,14 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof NotFoundHttpException) {
+            logger('Página no existe, URL incorrecta: '.request()->fullUrl());
+        }
+
+        if ($exception instanceof QueryException) {
+            logger('Ha ocurrido un error a nivel de base de datos: '.$exception->getMessage());
+        }
+
         parent::report($exception);
     }
 

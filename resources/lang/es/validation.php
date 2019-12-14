@@ -181,5 +181,9 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+        'customer_id'           => 'cliente',
+        'user_id'               => 'técnico',
+        'maintenances'          => 'mantenimiento',
+        'status'                => 'estado',
     ],
 ];
