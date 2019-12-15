@@ -19,4 +19,18 @@ class Customer extends Model
     {
         return $this->hasMany('App\Models\Device');
     }
+
+    public static function customersFilter($data)
+    {
+        return Customer::clientData($data)->paginate(10);
+    }
+
+    public function scopeClientData($query, $client_data)
+    {
+        if (!empty($client_data)) {
+            return $query->where('id_number', $client_data)
+                    ->orWhere('name', 'LIKE', "%$client_data%")
+                    ->orWhere('last_name', 'LIKE', "%$client_data%");
+        }
+    }
 }

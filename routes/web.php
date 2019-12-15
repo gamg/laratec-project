@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/dispositivos', 'DeviceController');
+Route::resource('/clientes', 'CustomerController');
+

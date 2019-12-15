@@ -31,16 +31,18 @@ const app = new Vue({
     el: '#app',
     data: {
         elementId: '',
+        elementUrl: '',
         showSpinner: false,
     },
     methods: {
-        getRoute(event) {
+        getElementData(event) {
             this.elementId = event.currentTarget.getAttribute('data-id');
+            this.elementUrl = event.currentTarget.getAttribute('href');
         },
         deleteIt() {
             if (this.elementId != '') {
                 this.showSpinner = true;
-                axios.delete('dispositivos/'+this.elementId).then((response) => {
+                axios.delete(this.elementUrl).then((response) => {
                     this.showSpinner = false;
                     $("#deleteModal").modal('hide');
                     if (response.data.error) {
@@ -49,7 +51,7 @@ const app = new Vue({
                             title: response.data.message,
                         });
                     } else {
-                        $("#device"+this.elementId).fadeOut();
+                        $("#target"+this.elementId).fadeOut();
                         Toast.fire({
                             icon: 'success',
                             title: response.data.message,
