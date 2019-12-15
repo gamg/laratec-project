@@ -18,7 +18,7 @@
 
     <div class="row">
         @forelse($devices as $device)
-            <div class="col-md-4 col-device" id="device{{$device->id}}">
+            <div class="col-md-4 col-device" id="target{{$device->id}}">
                 <div class="card device">
                     <div class="card-body">
                         <h5 class="card-title">Cliente: {{ $device->customer->name }}</h5>
@@ -28,9 +28,9 @@
                         <li class="list-group-item">Estado: <span class="badge badge-pill badge-{{ config('status.'.$device->status) }}">{{ $device->status }}</span></li>
                     </ul>
                     <div class="card-footer">
-                        <a href="{{ route('dispositivos.show', [$device->id]) }}" class="btn btn-primary"><i class="fas fa-info-circle"></i> Ver más</a>
-                        <a href="{{ route('dispositivos.edit', [$device]) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-                        <a href="#" class="btn btn-danger" @click="getRoute" data-id={{$device->id}} data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i> Eliminar</a>
+                        <a href="{{ route('dispositivos.show', [$device->id]) }}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver más</a>
+                        <a href="{{ route('dispositivos.edit', [$device]) }}" class="btn btn-outline-dark"><i class="fas fa-edit"></i> Editar</a>
+                        <a href="{{ route('dispositivos.destroy', [$device]) }}" class="btn btn-outline-danger" @click="getElementData" data-id={{$device->id}} data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i> Eliminar</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,6 @@
             <h3>No existen datos para mostrar.</h3>
         @endforelse
     </div>
-    @include('partials.modal')
 
     <section class="d-flex justify-content-center">
         {{ $devices->appends(request()->only('status', 'entry_date_from', 'entry_date_to'))->links() }}

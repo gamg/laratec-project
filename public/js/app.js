@@ -52377,18 +52377,21 @@ var app = new Vue({
   el: '#app',
   data: {
     elementId: '',
+    elementUrl: '',
     showSpinner: false
   },
   methods: {
-    getRoute: function getRoute(event) {
+    getElementData: function getElementData(event) {
+      event.preventDefault();
       this.elementId = event.currentTarget.getAttribute('data-id');
+      this.elementUrl = event.currentTarget.getAttribute('href');
     },
     deleteIt: function deleteIt() {
       var _this = this;
 
       if (this.elementId != '') {
         this.showSpinner = true;
-        axios["delete"]('dispositivos/' + this.elementId).then(function (response) {
+        axios["delete"](this.elementUrl).then(function (response) {
           _this.showSpinner = false;
           $("#deleteModal").modal('hide');
 
@@ -52398,7 +52401,7 @@ var app = new Vue({
               title: response.data.message
             });
           } else {
-            $("#device" + _this.elementId).fadeOut();
+            $("#target" + _this.elementId).fadeOut();
             Toast.fire({
               icon: 'success',
               title: response.data.message

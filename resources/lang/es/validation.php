@@ -185,5 +185,6 @@ return [
         'user_id'               => 'técnico',
         'maintenances'          => 'mantenimiento',
         'status'                => 'estado',
+        'id_number'             => 'Número de identificación',
     ],
 ];
