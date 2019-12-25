@@ -12,4 +12,16 @@ class Maintenance extends Model
     {
         return $this->belongsToMany('App\Models\Device')->withTimestamps();
     }
+
+    public static function maintenancesFilter($name)
+    {
+        return Maintenance::name($name)->paginate(10);
+    }
+
+    public function scopeName($query, $name)
+    {
+        if (!empty($name)) {
+            return $query->where('name', 'LIKE', "%$name%");
+        }
+    }
 }
