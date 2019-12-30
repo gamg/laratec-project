@@ -37,8 +37,6 @@
     </table>
     </div>
 
-    @include('partials.modal')
-
     <section class="d-flex justify-content-center">
         {{ $customers->appends(request()->only('client_data'))->links() }}
     </section>
