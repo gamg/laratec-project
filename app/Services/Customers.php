@@ -16,4 +16,19 @@ class Customers
 
         return $data;
     }
+
+    public function getCustomersFromDevice($tech)
+    {
+        $data = [];
+        $ids = [];
+
+        foreach ($tech->devices as $device) {
+            if (!in_array($device->customer->id, $ids)) {
+                $data [] = $device->customer()->first();
+                $ids [] = $device->customer->id;
+            }
+        }
+
+        return $data;
+    }
 }

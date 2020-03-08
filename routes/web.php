@@ -28,3 +28,5 @@ Route::post('/mantenimientos/create', 'MaintenanceController@postStore')->name('
 Route::get('/mantenimientos/edit/{id}', 'MaintenanceController@getEdit')->name('mantenimientos.edit');
 Route::put('/mantenimientos/update/{id}', 'MaintenanceController@putUpdate')->name('mantenimientos.update');
 Route::delete('/mantenimientos/delete/{id}', 'MaintenanceController@deleteDestroy')->name('mantenimientos.destroy');
+
+Route::resource('/tecnicos', 'TechnicianController');
