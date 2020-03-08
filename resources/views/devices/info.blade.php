@@ -59,17 +59,20 @@
                         <tbody>
                             <tr>
                                 <th>Nombre del Técnico</th>
-                                <td>{{ $device->user->name }}</td>
+                                <td>{{ is_null($device->user) ? 'Sin asignar' : $device->user->name }}</td>
                             </tr>
                             <tr>
                                 <th>Apellido del Técnico</th>
-                                <td>{{ $device->user->last_name }}</td>
+                                <td>{{ is_null($device->user) ? '--' : $device->user->last_name }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="tab-pane fade" id="v-pills-maintenance" role="tabpanel" aria-labelledby="v-pills-maintenance-tab">
-                    <table class="table table-bordered">
+                    @if($device->maintenances->isEmpty())
+                        <h4>No tiene mantenimientos asignados.</h4>
+                    @else
+                        <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -87,6 +90,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
         </div>

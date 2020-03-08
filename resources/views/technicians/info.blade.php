@@ -1,44 +1,44 @@
+@inject('customers', 'App\Services\Customers')
+
 @component('components.main')
     @slot('title')
-        Información del cliente
+        Información del técnico
     @endslot
 
     <div class="row">
         <div class="col-3">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-customer-tab" data-toggle="pill" href="#v-pills-customer" role="tab" aria-controls="v-pills-customer" aria-selected="true">Cliente</a>
+                <a class="nav-link active" id="v-pills-tech-tab" data-toggle="pill" href="#v-pills-tech" role="tab" aria-controls="v-pills-tech" aria-selected="true">Técnico</a>
                 <a class="nav-link" id="v-pills-device-tab" data-toggle="pill" href="#v-pills-device" role="tab" aria-controls="v-pills-device" aria-selected="false">Dispositivos</a>
-                <a class="nav-link" id="v-pills-technician-tab" data-toggle="pill" href="#v-pills-technician" role="tab" aria-controls="v-pills-technician" aria-selected="false">Atendido por</a>
+                <a class="nav-link" id="v-pills-customers-tab" data-toggle="pill" href="#v-pills-customers" role="tab" aria-controls="v-pills-customers" aria-selected="false">Clientes atendidos</a>
             </div>
         </div>
         <div class="col-9">
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-customer" role="tabpanel" aria-labelledby="v-pills-customer-tab">
+                <div class="tab-pane fade show active" id="v-pills-tech" role="tabpanel" aria-labelledby="v-pills-tech-tab">
                     <table class="table table-bordered table-hover">
                         <tbody>
                         <tr>
                             <th>Nombre</th>
-                            <td>{{ $customer->name }}</td>
+                            <td>{{ $technician->name }}</td>
                         </tr>
                         <tr>
                             <th>Apellido</th>
-                            <td>{{ $customer->last_name }}</td>
-                        </tr>
-                        <tr>
-                            <th># identificación</th>
-                            <td>{{ $customer->id_number }}</td>
+                            <td>{{ $technician->last_name }}</td>
                         </tr>
                         <tr>
                             <th>E-mail</th>
-                            <td>{{ $customer->email }}</td>
+                            <td>{{ $technician->email }}</td>
                         </tr>
                         <tr>
-                            <th>Dirección</th>
-                            <td>{{ $customer->address }}</td>
-                        </tr>
-                        <tr>
-                            <th>Teléfono</th>
-                            <td>{{ $customer->phone }}</td>
+                            <th>Avatar</th>
+                            <td>
+                                @if($technician->avatar == 'default')
+                                    <img src="{{ asset('/storage/default.png') }}" alt="Avatar" class="img-thumbnail" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('/storage/avatars/'.$technician->avatar) }}" alt="Avatar" class="img-thumbnail" width="50" height="50">
+                                @endif
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -53,7 +53,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($customer->devices as $device)
+                        @foreach($technician->devices as $device)
                             <tr>
                                 <td>{{ $device->description }}</td>
                                 <td><span class="badge badge-pill badge-{{ config('status.'.$device->status) }}">{{ $device->status }}</span></td>
@@ -69,23 +69,25 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="v-pills-technician" role="tabpanel" aria-labelledby="v-pills-technician-tab">
+                <div class="tab-pane fade" id="v-pills-customers" role="tabpanel" aria-labelledby="v-pills-customers-tab">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>E-mail</th>
+                            <th>Ver más info</th>
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($customer->devices as $device)
-                                <tr>
-                                    <th>{{ $device->user->name }}</th>
-                                    <td>{{ $device->user->last_name }}</td>
-                                    <td>{{ $device->user->email }}</td>
-                                </tr>
-                            @endforeach
+                        @foreach($customers->getCustomersFromDevice($technician) as $customer)
+                            <tr>
+                                <th>{{ $customer->name }}</th>
+                                <td>{{ $customer->last_name }}</td>
+                                <td>{{ $customer->email }}</td>
+                                <td><a href="{{ route('clientes.show', [$customer]) }}" target="_blank">Ver cliente</a></td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -93,7 +95,7 @@
         </div>
     </div>
 
-    <a href="{{ route('clientes.index') }}" class="btn btn-secondary">
+    <a href="{{ route('tecnicos.index') }}" class="btn btn-secondary">
         <i class="fas fa-undo"></i> Regresar
     </a>
 @endcomponent

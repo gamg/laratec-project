@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'avatar', 'password',
+        'name', 'last_name', 'email', 'password'
     ];
 
     /**
@@ -40,5 +41,24 @@ class User extends Authenticatable
     public function devices()
     {
         return $this->hasMany('App\Models\Device');
+    }
+
+    public static function techniciansFilter($data)
+    {
+        return User::techData($data)->paginate(10);
+    }
+
+    public function scopeTechData($query, $tech_data)
+    {
+        if (!empty($tech_data)) {
+            return $query->where('name', 'LIKE', "%$tech_data%")
+                ->orWhere('last_name', 'LIKE', "%$tech_data%")
+                ->orWhere('email', 'LIKE', "%$tech_data%");
+        }
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 }
