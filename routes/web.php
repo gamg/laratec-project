@@ -19,14 +19,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/dispositivos', 'DeviceController');
-Route::resource('/clientes', 'CustomerController');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/dispositivos', 'DeviceController');
+    Route::resource('/clientes', 'CustomerController');
 
-Route::get('/mantenimientos', 'MaintenanceController@getIndex')->name('mantenimientos.index');
-Route::get('/mantenimientos/create', 'MaintenanceController@getCreate')->name('mantenimientos.create');
-Route::post('/mantenimientos/create', 'MaintenanceController@postStore')->name('mantenimientos.store');
-Route::get('/mantenimientos/edit/{id}', 'MaintenanceController@getEdit')->name('mantenimientos.edit');
-Route::put('/mantenimientos/update/{id}', 'MaintenanceController@putUpdate')->name('mantenimientos.update');
-Route::delete('/mantenimientos/delete/{id}', 'MaintenanceController@deleteDestroy')->name('mantenimientos.destroy');
+    Route::get('/mantenimientos', 'MaintenanceController@getIndex')->name('mantenimientos.index');
+    Route::get('/mantenimientos/create', 'MaintenanceController@getCreate')->name('mantenimientos.create');
+    Route::post('/mantenimientos/create', 'MaintenanceController@postStore')->name('mantenimientos.store');
+    Route::get('/mantenimientos/edit/{id}', 'MaintenanceController@getEdit')->name('mantenimientos.edit');
+    Route::put('/mantenimientos/update/{id}', 'MaintenanceController@putUpdate')->name('mantenimientos.update');
+    Route::delete('/mantenimientos/delete/{id}', 'MaintenanceController@deleteDestroy')->name('mantenimientos.destroy');
 
-Route::resource('/tecnicos', 'TechnicianController');
+    Route::resource('/tecnicos', 'TechnicianController');
+});
