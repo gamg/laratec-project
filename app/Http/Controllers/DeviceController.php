@@ -11,6 +11,11 @@ use App\Http\Requests\Device\UpdateRequest;
 
 class DeviceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +47,7 @@ class DeviceController extends Controller
     {
         $data = [
             'customer_id' => $request->customer_id,
-            'user_id' =>  (auth()->user()->type == 1) ? $request->user_id : auth()->user()->id,
+            'user_id' =>  (auth()->user()->isAdmin()) ? $request->user_id : auth()->user()->id,
             'description' => $request->description,
             'status' => 'Recibido',
             'entry_date' => Carbon::now(),

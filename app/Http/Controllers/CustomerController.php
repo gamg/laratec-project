@@ -9,6 +9,11 @@ use App\Http\Requests\Customer\CreateRequest;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *

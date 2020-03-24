@@ -30,5 +30,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/mantenimientos/update/{id}', 'MaintenanceController@putUpdate')->name('mantenimientos.update');
     Route::delete('/mantenimientos/delete/{id}', 'MaintenanceController@deleteDestroy')->name('mantenimientos.destroy');
 
-    Route::resource('/tecnicos', 'TechnicianController');
+    Route::resource('/tecnicos', 'TechnicianController')->middleware('admin');
 });
