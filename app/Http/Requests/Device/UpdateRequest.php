@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
         return [
             'customer_id' => 'required|exists:customers,id',
             'user_id' => [Rule::requiredIf(function () {
-                return (auth()->user()->type == 1) ? true : false;
+                return (auth()->user()->isAdmin()) ? true : false;
             }), 'exists:users,id'],
             'maintenances' => 'required|exists:maintenances,id',
             'description' => 'required|string',

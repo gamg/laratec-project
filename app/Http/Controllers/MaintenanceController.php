@@ -9,6 +9,11 @@ use App\Http\Requests\Maintenance\CreateRequest;
 
 class MaintenanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->except('getIndex');
+    }
+
     /**
      * Display a listing of the resource.
      *
