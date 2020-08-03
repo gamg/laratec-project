@@ -30,7 +30,9 @@
                     <div class="card-footer">
                         <a href="{{ route('dispositivos.show', [$device->id]) }}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver más</a>
                         <a href="{{ route('dispositivos.edit', [$device]) }}" class="btn btn-outline-dark"><i class="fas fa-edit"></i> Editar</a>
-                        <a href="{{ route('dispositivos.destroy', [$device]) }}" class="btn btn-outline-danger" @click="getElementData" data-id={{$device->id}} data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i> Eliminar</a>
+                        @can('check-admin')
+                            <a href="{{ route('dispositivos.destroy', [$device]) }}" class="btn btn-outline-danger" @click="getElementData" data-id={{$device->id}} data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i> Eliminar</a>
+                        @endcan
                     </div>
                 </div>
             </div>
