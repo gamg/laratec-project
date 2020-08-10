@@ -12,7 +12,7 @@
     <div class="form-group">
         {!! Form::label('name', 'Nombre') !!}
         {!! Form::text('name', null, [
-            'placeholder' => 'Ingresa el nombre del cliente',
+            'placeholder' => 'Ingresa el nombre del técnico',
             'class' => 'form-control '.(!empty($errors->first('name')) ? 'is-invalid' : '')]);
         !!}
         @error('name')
@@ -25,7 +25,7 @@
     <div class="form-group">
         {!! Form::label('last_name', 'Apellido') !!}
         {!! Form::text('last_name', null, [
-            'placeholder' => 'Ingresa el apellido del cliente',
+            'placeholder' => 'Ingresa el apellido del técnico',
             'class' => 'form-control '.(!empty($errors->first('last_name')) ? 'is-invalid' : '')]);
         !!}
         @error('last_name')
@@ -94,7 +94,7 @@
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> {{ !empty($customer) ? 'Actualizar ' : 'Guardar ' }}
+            <i class="fas fa-save"></i> {{ !empty($technician) ? 'Actualizar ' : 'Guardar ' }}
         </button>
         <a href="{{ route('tecnicos.index') }}" class="btn btn-secondary">
             <i class="fas fa-undo"></i> Ir al listado
