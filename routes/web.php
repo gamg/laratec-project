@@ -29,8 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/tecnicos', 'TechnicianController')->middleware('admin');
 
     Route::get('/perfil', 'ProfileController@index')->name('profile.index');
-    Route::get('/perfil/editar-datos', 'ProfileController@editPersonalData')->name('profile.edit_personal_data');
-    Route::get('/perfil/editar-contrasena', 'ProfileController@editPassword')->name('profile.edit_password');
+    Route::get('/perfil/editar-datos', 'ProfileController@editPersonalData')->name('profile.edit_personal_data')->middleware('password.confirm');
+    Route::get('/perfil/editar-contrasena', 'ProfileController@editPassword')->name('profile.edit_password')->middleware('password.confirm');
     Route::put('/perfil/actualizar-datos', 'ProfileController@updatePersonalData')->name('profile.update_personal_data');
     Route::put('/perfil/actualizar-contrasena', 'ProfileController@updatePassword')->name('profile.update_password');
 });
