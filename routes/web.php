@@ -11,11 +11,11 @@
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/dispositivos', 'DeviceController');
     Route::resource('/clientes', 'CustomerController');
 
