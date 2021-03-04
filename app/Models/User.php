@@ -57,11 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
     public function isAdmin()
     {
         return $this->type == 1;

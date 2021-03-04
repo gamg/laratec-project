@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Profile\EditPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Profile\UpdateRequest;
 use App\Http\Requests\Profile\EditPersonalData;
@@ -57,7 +58,7 @@ class ProfileController extends Controller
     public function updatePassword(EditPassword $request)
     {
         // updating password
-        auth()->user()->fill($request->all());
+        auth()->user()->password = Hash::make($request->password);
         auth()->user()->save();
 
         $request->session()->flash('message', 'Contraseña actualizada correctamente.');
