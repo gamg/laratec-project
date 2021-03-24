@@ -11,26 +11,33 @@
 |
 */
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\TechnicianController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
+
 Auth::routes(['verify' => true]);
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('/dispositivos', 'DeviceController');
-    Route::resource('/clientes', 'CustomerController');
+    Route::resource('/dispositivos', DeviceController::class);
+    Route::resource('/clientes', CustomerController::class);
 
-    Route::get('/mantenimientos', 'MaintenanceController@getIndex')->name('mantenimientos.index');
-    Route::get('/mantenimientos/create', 'MaintenanceController@getCreate')->name('mantenimientos.create');
-    Route::post('/mantenimientos/create', 'MaintenanceController@postStore')->name('mantenimientos.store');
-    Route::get('/mantenimientos/edit/{id}', 'MaintenanceController@getEdit')->name('mantenimientos.edit');
-    Route::put('/mantenimientos/update/{id}', 'MaintenanceController@putUpdate')->name('mantenimientos.update');
-    Route::delete('/mantenimientos/delete/{id}', 'MaintenanceController@deleteDestroy')->name('mantenimientos.destroy');
+    Route::get('/mantenimientos', [MaintenanceController::class,'getIndex'])->name('mantenimientos.index');
+    Route::get('/mantenimientos/create', [MaintenanceController::class,'getCreate'])->name('mantenimientos.create');
+    Route::post('/mantenimientos/create', [MaintenanceController::class,'postStore'])->name('mantenimientos.store');
+    Route::get('/mantenimientos/edit/{id}', [MaintenanceController::class,'getEdit'])->name('mantenimientos.edit');
+    Route::put('/mantenimientos/update/{id}', [MaintenanceController::class, 'putUpdate'])->name('mantenimientos.update');
+    Route::delete('/mantenimientos/delete/{id}', [MaintenanceController::class,'deleteDestroy'])->name('mantenimientos.destroy');
 
-    Route::resource('/tecnicos', 'TechnicianController')->middleware('admin');
+    Route::resource('/tecnicos', TechnicianController::class)->middleware('admin');
 
-    Route::get('/perfil', 'ProfileController@index')->name('profile.index');
-    Route::get('/perfil/editar-datos', 'ProfileController@editPersonalData')->name('profile.edit_personal_data')->middleware('password.confirm');
-    Route::get('/perfil/editar-contrasena', 'ProfileController@editPassword')->name('profile.edit_password')->middleware('password.confirm');
-    Route::put('/perfil/actualizar-datos', 'ProfileController@updatePersonalData')->name('profile.update_personal_data');
-    Route::put('/perfil/actualizar-contrasena', 'ProfileController@updatePassword')->name('profile.update_password');
+    Route::get('/perfil', [ProfileController::class,'index'])->name('profile.index');
+    Route::get('/perfil/editar-datos', [ProfileController::class,'editPersonalData'])->name('profile.edit_personal_data')->middleware('password.confirm');
+    Route::get('/perfil/editar-contrasena', [ProfileController::class,'editPassword'])->name('profile.edit_password')->middleware('password.confirm');
+    Route::put('/perfil/actualizar-datos', [ProfileController::class, 'updatePersonalData'])->name('profile.update_personal_data');
+    Route::put('/perfil/actualizar-contrasena', [ProfileController::class,'updatePassword'])->name('profile.update_password');
 });

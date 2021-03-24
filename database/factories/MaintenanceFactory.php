@@ -1,13 +1,29 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Maintenance;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Maintenance::class, function (Faker $faker) {
-    return [
-        'name' => $faker->words(2),
-        'price' => $faker->randomFloat(2, 10),
-    ];
-});
+class MaintenanceFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Maintenance::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->words(2),
+            'price' => $this->faker->randomFloat(2, 10),
+        ];
+    }
+}
